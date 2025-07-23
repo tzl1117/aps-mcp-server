@@ -1,0 +1,10 @@
+{
+	"mcpServers": {
+		"autodesk-platform-services": {
+			"command": "node",
+			"args": [
+				"C:/Users/ztan/OneDrive - SmithGroup Companies Inc/Documents/GitHub/aps-mcp-server/aps-mcp-server/build/server.js"
+			]
+		}
+	}
+}
