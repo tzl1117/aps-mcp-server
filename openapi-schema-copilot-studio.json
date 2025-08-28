@@ -1,0 +1,50 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "APS MCP Server for Copilot Studio",
+    "description": "Autodesk Platform Services MCP server with proper headers for Microsoft Copilot Studio integration",
+    "version": "1.0.0"
+  },
+  "host": "aps-mcp-server-1-bnhqa4cce3ese7ew.centralus-01.azurewebsites.net",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/mcp": {
+      "post": {
+        "summary": "Autodesk Platform Services MCP Server",
+        "description": "MCP server providing access to Autodesk Construction Cloud data via APS APIs",
+        "x-ms-agentic-protocol": "mcp-streamable-1.0",
+        "operationId": "InvokeMCP",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Accept",
+            "type": "string",
+            "required": true,
+            "default": "application/json, text/event-stream"
+          },
+          {
+            "in": "header",
+            "name": "Content-Type",
+            "type": "string",
+            "required": true,
+            "default": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful MCP response"
+          },
+          "400": {
+            "description": "Bad request - Invalid JSON-RPC format"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

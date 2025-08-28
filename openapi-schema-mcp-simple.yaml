@@ -1,0 +1,30 @@
+swagger: '2.0'
+info:
+  title: APS MCP Server
+  description: |
+    Model Context Protocol server for Autodesk Construction Cloud data access.
+    
+    **IMPORTANT WORKFLOW:**
+    1. Always call get-accounts first to obtain available account IDs
+    2. Use the account ID from step 1 to call get-projects  
+    3. Use account ID + project ID to call other tools
+    
+    **Required Parameters Flow:**
+    - get-accounts: No parameters needed
+    - get-projects: Requires accountId from get-accounts
+    - get-folder-contents: Requires accountId + projectId
+    - All other tools: Follow the parameter dependencies
+  version: 1.0.0
+host: aps-mcp-server-1-bnhqa4cce3ese7ew.centralus-01.azurewebsites.net
+basePath: /
+schemes:
+  - https
+paths:
+  /mcp:
+    post:
+      summary: Autodesk Platform Services MCP Server
+      x-ms-agentic-protocol: mcp-streamable-1.0
+      operationId: InvokeMCP
+      responses:
+        '200':
+          description: Success
