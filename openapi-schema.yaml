@@ -3,11 +3,10 @@ info:
   title: Autodesk Platform Services MCP Server
   description: Model Context Protocol server providing access to Autodesk Construction Cloud data via APS APIs
   version: 1.0.0
-host: localhost:3000
+host: aps-mcp-server-1-bnhqa4cce3ese7ew.centralus-01.azurewebsites.net
 basePath: /
 schemes:
   - https
-  - http
 consumes:
   - application/json
 produces:
