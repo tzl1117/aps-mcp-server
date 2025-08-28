@@ -15,6 +15,7 @@ paths:
   /mcp:
     post:
       summary: Autodesk Platform Services MCP Endpoint
+      x-ms-agentic-protocol: mcp-streamable-1.0
       description: MCP Streamable endpoint for Microsoft Copilot Studio integration
       operationId: InvokeMCP
       consumes:
