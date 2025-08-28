@@ -5,7 +5,10 @@ import dotenv from "dotenv";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
-const { APS_CLIENT_ID, APS_CLIENT_SECRET, APS_SA_ID, APS_SA_EMAIL, APS_SA_KEY_ID, APS_SA_PRIVATE_KEY } = process.env;
+const { APS_CLIENT_ID, APS_CLIENT_SECRET, APS_SA_ID, APS_SA_EMAIL, APS_SA_KEY_ID, APS_SA_PRIVATE_KEY: rawPrivateKey } = process.env;
+
+// Fix private key formatting - replace \n with actual newlines for Azure environment variables
+const APS_SA_PRIVATE_KEY = rawPrivateKey?.replace(/\\n/g, '\n');
 
 export {
     APS_CLIENT_ID,
