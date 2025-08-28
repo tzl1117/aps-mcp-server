@@ -44,6 +44,35 @@ for (const tool of Object.values(tools)) {
     mcpServer.tool(tool.title, tool.description, tool.schema, tool.callback);
 }
 
+// MCP GET endpoint for initial handshake/session establishment
+app.get('/mcp', (req: Request, res: Response) => {
+    try {
+        console.log('MCP GET request received for handshake');
+        
+        // Return server capabilities and info
+        res.json({
+            jsonrpc: "2.0",
+            result: {
+                protocolVersion: "2024-11-05",
+                capabilities: {
+                    tools: {}
+                },
+                serverInfo: {
+                    name: "autodesk-platform-services",
+                    version: "1.0.0"
+                },
+                instructions: "Use POST /mcp for JSON-RPC 2.0 requests"
+            }
+        });
+    } catch (error) {
+        console.error('MCP GET endpoint error:', error);
+        res.status(500).json({
+            error: "Internal server error",
+            message: error instanceof Error ? error.message : String(error)
+        });
+    }
+});
+
 // MCP Streamable endpoint - This is what Microsoft Copilot Studio will call
 app.post('/mcp', async (req: Request, res: Response) => {
     try {

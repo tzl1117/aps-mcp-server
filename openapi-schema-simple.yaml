@@ -1,0 +1,25 @@
+swagger: '2.0'
+info:
+  title: APS MCP Server
+  description: MCP Streamable endpoint for Microsoft Copilot Studio integration
+  version: 1.0.0
+host: aps-mcp-server-1-bnhqa4cce3ese7ew.centralus-01.azurewebsites.net
+basePath: /
+schemes:
+  - https
+paths:
+  /mcp:
+    get:
+      summary: MCP Handshake
+      description: Initial MCP session establishment
+      operationId: GetMCPInfo
+      responses:
+        '200':
+          description: Server capabilities and info
+    post:
+      summary: Autodesk Platform Services MCP Server
+      x-ms-agentic-protocol: mcp-streamable-1.0
+      operationId: InvokeMCP
+      responses:
+        '200':
+          description: Success
