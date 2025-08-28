@@ -11,7 +11,13 @@
   },
   "scripts": {
     "build": "tsc",
-    "inspect": "mcp-inspector node ./build/server.js"
+    "inspect": "mcp-inspector node ./build/server.js",
+    "serve": "node ./build/http-server.js",
+    "serve-mcp": "node ./build/mcp-streamable-server.js",
+    "dev": "npm run build && npm run serve",
+    "dev-mcp": "npm run build && npm run serve-mcp",
+    "start": "npm run build && npm run serve-mcp",
+    "postinstall": "npm run build"
   },
   "files": [
     "build"
@@ -20,14 +26,18 @@
     "@aps_sdk/authentication": "^1.0.0",
     "@aps_sdk/construction-issues": "^1.1.0",
     "@aps_sdk/data-management": "^1.0.1",
-    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@modelcontextprotocol/sdk": "^1.17.4",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^3.3.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@modelcontextprotocol/inspector": "^0.6.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.10",
     "typescript": "^5.8.2"

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>APS MCP Server Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { margin: 5px; padding: 10px; }
+        .response { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e8; color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <h1>APS MCP Server Test</h1>
+    
+    <button onclick="testHealth()">Test Health</button>
+    <button onclick="testGetAccounts()">Test Get Accounts</button>
+    <button onclick="testGetProjects()">Test Get Projects</button>
+    
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(title, data, isError = false) {
+            const div = document.createElement('div');
+            div.className = 'response ' + (isError ? 'error' : 'success');
+            div.innerHTML = `<h3>${title}</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            results.appendChild(div);
+        }
+        
+        async function testHealth() {
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                const data = await response.json();
+                addResult('Health Check', data);
+            } catch (error) {
+                addResult('Health Check Error', { error: error.message }, true);
+            }
+        }
+        
+        async function testGetAccounts() {
+            try {
+                const response = await fetch('http://localhost:3000/api/get-accounts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                const data = await response.json();
+                addResult('Get Accounts', data);
+            } catch (error) {
+                addResult('Get Accounts Error', { error: error.message }, true);
+            }
+        }
+        
+        async function testGetProjects() {
+            try {
+                const response = await fetch('http://localhost:3000/api/get-projects', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ accountId: 'test-account-id' })
+                });
+                const data = await response.json();
+                addResult('Get Projects', data);
+            } catch (error) {
+                addResult('Get Projects Error', { error: error.message }, true);
+            }
+        }
+    </script>
+</body>
+</html>
