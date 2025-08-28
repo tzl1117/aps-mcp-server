@@ -16,92 +16,31 @@ paths:
     post:
       summary: Autodesk Platform Services MCP Endpoint
       description: MCP Streamable endpoint for Microsoft Copilot Studio integration
-      x-ms-agentic-protocol: mcp-streamable-1.0
       operationId: InvokeMCP
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: body
+        - name: mcpRequest
           in: body
           required: true
+          description: MCP JSON-RPC request
           schema:
-            type: object
-            properties:
-              jsonrpc:
-                type: string
-                example: "2.0"
-                description: JSON-RPC version
-              id:
-                type: string
-                example: "1"
-                description: Request ID
-              method:
-                type: string
-                example: "tools/call"
-                description: MCP method name
-              params:
-                type: object
-                description: Method parameters
-                properties:
-                  name:
-                    type: string
-                    example: "get-accounts"
-                    description: Tool name
-                  arguments:
-                    type: object
-                    description: Tool arguments
-            required:
-              - jsonrpc
-              - method
+            $ref: '#/definitions/MCPRequest'
       responses:
         '200':
           description: Successful MCP response
           schema:
-            type: object
-            properties:
-              jsonrpc:
-                type: string
-                example: "2.0"
-              id:
-                type: string
-                example: "1"
-              result:
-                type: object
-                description: Response data
+            $ref: '#/definitions/MCPResponse'
         '400':
           description: Bad request - Invalid JSON-RPC format
           schema:
-            type: object
-            properties:
-              jsonrpc:
-                type: string
-              id:
-                type: string
-              error:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  message:
-                    type: string
+            $ref: '#/definitions/MCPErrorResponse'
         '500':
           description: Internal server error
           schema:
-            type: object
-            properties:
-              jsonrpc:
-                type: string
-              id:
-                type: string
-              error:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  message:
-                    type: string
+            $ref: '#/definitions/MCPErrorResponse'
   /health:
     get:
       summary: Health Check
@@ -164,14 +103,27 @@ definitions:
     properties:
       jsonrpc:
         type: string
-        enum: ["2.0"]
+        example: "2.0"
+        description: JSON-RPC version (must be "2.0")
       id:
         type: string
+        example: "1"
+        description: Request ID
       method:
         type: string
-        enum: ["initialize", "tools/list", "tools/call"]
+        example: "tools/call"
+        description: MCP method name (initialize, tools/list, tools/call)
       params:
         type: object
+        description: Method parameters
+        properties:
+          name:
+            type: string
+            example: "get-accounts"
+            description: Tool name (for tools/call method)
+          arguments:
+            type: object
+            description: Tool arguments (for tools/call method)
   MCPResponse:
     type: object
     required:
@@ -179,17 +131,43 @@ definitions:
     properties:
       jsonrpc:
         type: string
-        enum: ["2.0"]
+        example: "2.0"
+        description: JSON-RPC version
       id:
         type: string
+        example: "1"
+        description: Request ID
       result:
         type: object
+        description: Response data when successful
+  MCPErrorResponse:
+    type: object
+    required:
+      - jsonrpc
+    properties:
+      jsonrpc:
+        type: string
+        example: "2.0"
+        description: JSON-RPC version
+      id:
+        type: string
+        example: "1"
+        description: Request ID
       error:
         type: object
+        required:
+          - code
+          - message
         properties:
           code:
             type: integer
+            example: -32603
+            description: Error code
           message:
             type: string
+            example: "Tool execution failed"
+            description: Error message
           data:
-            type: object
+            type: string
+            example: "Additional error details"
+            description: Additional error information
