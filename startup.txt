@@ -1,2 +1,0 @@
-# Azure App Service startup command
-node build/mcp-streamable-server.js
