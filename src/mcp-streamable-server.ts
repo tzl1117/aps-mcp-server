@@ -33,6 +33,41 @@ app.get('/health', (req: Request, res: Response) => {
     });
 });
 
+// Root endpoint for browser access
+app.get('/', (req: Request, res: Response) => {
+    res.json({
+        name: 'Autodesk Platform Services MCP Server',
+        version: '1.0.0',
+        description: 'Model Context Protocol server for Autodesk Construction Cloud',
+        endpoints: {
+            health: '/health',
+            mcp: '/mcp (POST only)',
+            info: '/info'
+        },
+        documentation: 'https://github.com/tzl1117/aps-mcp-server'
+    });
+});
+
+// Server info endpoint
+app.get('/info', (req: Request, res: Response) => {
+    res.json({
+        server: 'autodesk-platform-services',
+        version: '1.0.0',
+        protocol: 'MCP Streamable',
+        transport: 'HTTP',
+        tools: [
+            'get-accounts',
+            'get-projects', 
+            'get-folder-contents',
+            'get-issues',
+            'get-issue-types',
+            'get-issue-comments',
+            'get-issue-root-causes',
+            'get-item-versions'
+        ]
+    });
+});
+
 // Create MCP server instance
 const mcpServer = new McpServer({ 
     name: "autodesk-platform-services", 
