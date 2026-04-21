@@ -25,7 +25,7 @@ try {
     console.log(`APS_SA_ID="${serviceAccountId}"`);
     console.log(`APS_SA_EMAIL="${email}"`);
     console.log(`APS_SA_KEY_ID="${kid}"`);
-    console.log(`APS_SA_PRIVATE_KEY="${privateKey}"`);
+    console.log(`APS_SA_PRIVATE_KEY="${Buffer.from(privateKey).toString("base64")}"`);
 } catch (err) {
     console.error(err);
     process.exit(1);
